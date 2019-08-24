@@ -7,6 +7,13 @@ import org.apache.camel.impl.engine.DefaultConsumerTemplate;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * Class that allows an actor to read from an exchange.
+ * Instances of this class are created through the CamelExchange#channel method.
+ *
+ * @param <T>
+ */
+
 public class ExchangeChannel<T> implements AutoCloseable {
     private final String endpoint;
     private final ConsumerTemplate consumerTemplate;
