@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.kmruiz</groupId>
+    <artifactId>vlingo-lattice-camel-exchange</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+
+        <version.camel>3.0.0-M4</version.camel>
+        <version.vlingo>0.8.7</version.vlingo>
+        <version.junit>5.5.1</version.junit>
+        <version.testcontainers>1.12.0</version.testcontainers>
+        <version.lombok>1.18.8</version.lombok>
+    </properties>
+
+    <dependencies>
+        <!--    LOMBOK    -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${version.lombok}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--    CAMEL    -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>${version.camel}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!--    VLINGO    -->
+        <dependency>
+            <groupId>io.vlingo</groupId>
+            <artifactId>vlingo-lattice</artifactId>
+            <version>${version.vlingo}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vlingo</groupId>
+            <artifactId>vlingo-telemetry</artifactId>
+            <version>${version.vlingo}</version>
+        </dependency>
+
+        <!--    JUNIT 5    -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--    TESTCONTAINERS    -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${version.testcontainers}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>localstack</artifactId>
+            <version>${version.testcontainers}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--    CAMEL MODULES FOR TEST PURPOUSES    -->
+        <dependency> <!-- See com.github.kmruiz.lattice.camel.integration.ActiveMQIntegrationTest -->
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-activemq</artifactId>
+            <version>${version.camel}</version>
+        </dependency>
+        <dependency> <!-- See com.github.kmruiz.lattice.camel.integration.RabbitMQIntegrationTest -->
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-rabbitmq</artifactId>
+            <version>${version.camel}</version>
+        </dependency>
+        <dependency> <!-- See com.github.kmruiz.lattice.camel.integration.SQSIntegrationTest -->
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-aws-sqs</artifactId>
+            <version>${version.camel}</version>
+        </dependency>
+
+    </dependencies>
+</project>
