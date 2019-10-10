@@ -1,13 +1,19 @@
-package com.github.kmruiz.lattice.camel;
+// Copyright © 2012-2018 Vaughn Vernon. All rights reserved.
+//
+// This Source Code Form is subject to the terms of the
+// Mozilla Public License, v. 2.0. If a copy of the MPL
+// was not distributed with this file, You can obtain
+// one at https://mozilla.org/MPL/2.0/.
 
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannel;
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannels;
-import com.github.kmruiz.lattice.camel.sender.CamelExchangeSender;
-import com.github.kmruiz.lattice.camel.sender.ExchangeSenders;
+package io.vlingo.lattice.exchange.camel;
+
 import io.vlingo.lattice.exchange.Covey;
 import io.vlingo.lattice.exchange.Exchange;
 import io.vlingo.lattice.exchange.Forwarder;
-import lombok.Builder;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannels;
+import io.vlingo.lattice.exchange.camel.sender.CamelExchangeSender;
+import io.vlingo.lattice.exchange.camel.sender.ExchangeSenders;
 import org.apache.camel.CamelContext;
 
 public class CamelExchange<ExchangeType> implements Exchange {
@@ -18,7 +24,6 @@ public class CamelExchange<ExchangeType> implements Exchange {
 
     private final Forwarder forwarder;
 
-    @Builder
     public CamelExchange(CamelContext camelContext, String name, Class<ExchangeType> exchangeType, String endpoint) throws Exception {
         this.camelContext = camelContext;
         this.name = name;

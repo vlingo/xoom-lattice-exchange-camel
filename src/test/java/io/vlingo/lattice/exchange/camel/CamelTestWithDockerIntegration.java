@@ -1,7 +1,14 @@
-package com.github.kmruiz.lattice.camel;
+// Copyright © 2012-2018 Vaughn Vernon. All rights reserved.
+//
+// This Source Code Form is subject to the terms of the
+// Mozilla Public License, v. 2.0. If a copy of the MPL
+// was not distributed with this file, You can obtain
+// one at https://mozilla.org/MPL/2.0/.
 
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannel;
+package io.vlingo.lattice.exchange.camel;
+
 import io.vlingo.lattice.exchange.Exchange;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +43,7 @@ public abstract class CamelTestWithDockerIntegration<T extends GenericContainer>
     @Test
     public void shouldConsumeAndReadTheSameMessageFromTheSameExchange() throws Exception {
         String exchangeUri = exchangeUri(container);
-        Exchange exchange = CamelExchange.<String>builder().camelContext(context()).endpoint(exchangeUri).name(exchangeUri).exchangeType(String.class).build();
+        Exchange exchange = new CamelExchange<>(context(), exchangeUri, String.class, exchangeUri);
 
         ExchangeChannel<String> channel = exchange.channel();
 

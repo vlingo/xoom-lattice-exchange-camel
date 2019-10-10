@@ -1,8 +1,15 @@
-package com.github.kmruiz.lattice.camel.e2e;
+// Copyright © 2012-2018 Vaughn Vernon. All rights reserved.
+//
+// This Source Code Form is subject to the terms of the
+// Mozilla Public License, v. 2.0. If a copy of the MPL
+// was not distributed with this file, You can obtain
+// one at https://mozilla.org/MPL/2.0/.
 
-import com.github.kmruiz.lattice.camel.CamelExchange;
-import com.github.kmruiz.lattice.camel.CamelTest;
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannel;
+package io.vlingo.lattice.exchange.camel.e2e;
+
+import io.vlingo.lattice.exchange.camel.CamelExchange;
+import io.vlingo.lattice.exchange.camel.CamelTest;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
 import io.vlingo.lattice.exchange.Exchange;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +26,7 @@ public class CamelExchangeTest extends CamelTest {
 
     @Test
     void shouldBeAbleToConsumeAProducerMessageFromAExchange() throws Exception {
-        Exchange exchange = CamelExchange.<String>builder().camelContext(context()).endpoint(ENDPOINT).name(NAME).exchangeType(String.class).build();
+        Exchange exchange = new CamelExchange<>(context(), NAME, String.class, ENDPOINT);
 
         ExchangeChannel<String> channel = exchange.channel();
 

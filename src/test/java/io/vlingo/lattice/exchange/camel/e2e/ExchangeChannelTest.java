@@ -1,8 +1,15 @@
-package com.github.kmruiz.lattice.camel.e2e;
+// Copyright © 2012-2018 Vaughn Vernon. All rights reserved.
+//
+// This Source Code Form is subject to the terms of the
+// Mozilla Public License, v. 2.0. If a copy of the MPL
+// was not distributed with this file, You can obtain
+// one at https://mozilla.org/MPL/2.0/.
 
-import com.github.kmruiz.lattice.camel.CamelTest;
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannel;
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannels;
+package io.vlingo.lattice.exchange.camel.e2e;
+
+import io.vlingo.lattice.exchange.camel.CamelTest;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannels;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
