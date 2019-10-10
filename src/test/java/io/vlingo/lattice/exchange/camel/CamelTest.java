@@ -1,4 +1,4 @@
-package com.github.kmruiz.lattice.camel;
+package io.vlingo.lattice.exchange.camel;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ConsumerTemplate;
@@ -30,7 +30,7 @@ public abstract class CamelTest {
 
         producerTemplate.start();
         consumerTemplate.start();
-}
+    }
 
     @AfterEach
     public void tearDownCamelContext() {

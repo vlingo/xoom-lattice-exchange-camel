@@ -1,7 +1,7 @@
-package com.github.kmruiz.lattice.camel;
+package io.vlingo.lattice.exchange.camel;
 
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannel;
 import io.vlingo.lattice.exchange.Exchange;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public abstract class CamelTestWithDockerIntegration<T extends GenericContainer>
     @Test
     public void shouldConsumeAndReadTheSameMessageFromTheSameExchange() throws Exception {
         String exchangeUri = exchangeUri(container);
-        Exchange exchange = CamelExchange.<String>builder().camelContext(context()).endpoint(exchangeUri).name(exchangeUri).exchangeType(String.class).build();
+        Exchange exchange = new CamelExchange<>(context(), exchangeUri, String.class, exchangeUri);
 
         ExchangeChannel<String> channel = exchange.channel();
 

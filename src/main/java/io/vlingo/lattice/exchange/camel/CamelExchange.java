@@ -1,13 +1,12 @@
-package com.github.kmruiz.lattice.camel;
+package io.vlingo.lattice.exchange.camel;
 
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannel;
-import com.github.kmruiz.lattice.camel.channel.ExchangeChannels;
-import com.github.kmruiz.lattice.camel.sender.CamelExchangeSender;
-import com.github.kmruiz.lattice.camel.sender.ExchangeSenders;
 import io.vlingo.lattice.exchange.Covey;
 import io.vlingo.lattice.exchange.Exchange;
 import io.vlingo.lattice.exchange.Forwarder;
-import lombok.Builder;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
+import io.vlingo.lattice.exchange.camel.channel.ExchangeChannels;
+import io.vlingo.lattice.exchange.camel.sender.CamelExchangeSender;
+import io.vlingo.lattice.exchange.camel.sender.ExchangeSenders;
 import org.apache.camel.CamelContext;
 
 public class CamelExchange<ExchangeType> implements Exchange {
@@ -18,7 +17,6 @@ public class CamelExchange<ExchangeType> implements Exchange {
 
     private final Forwarder forwarder;
 
-    @Builder
     public CamelExchange(CamelContext camelContext, String name, Class<ExchangeType> exchangeType, String endpoint) throws Exception {
         this.camelContext = camelContext;
         this.name = name;

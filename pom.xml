@@ -4,30 +4,48 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.kmruiz</groupId>
+    <groupId>io.vlingo</groupId>
     <artifactId>vlingo-lattice-camel-exchange</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9.0-RC1</version>
+    <description>The vlingo/lattice io.vlingo.lattice.exchange.Exchange extension for Apache Camel</description>
+    <url>https://github.com/vlingo/vlingo-lattice-exchange-camel</url>
+    <licenses>
+        <license>
+            <name>Mozilla Public License 2.0</name>
+            <url>https://mozilla.org/MPL/2.0/</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Vaughn Vernon</name>
+            <email>vaughn@kalele.io</email>
+            <organization>Kalele</organization>
+            <organizationUrl>http://kalele.io</organizationUrl>
+        </developer>
+        <developer>
+            <name>Kevin Mas Ruiz</name>
+            <email>Masruizkevin@gmail.com</email>
+            <url>https://kmruiz.github.io/</url>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/vlingo/vlingo-lattice-exchange-camel.git</connection>
+        <developerConnection>scm:git:ssh://github.com/vlingo/vlingo-lattice-exchange-camel.git</developerConnection>
+        <url>http://github.com/vlingo/vlingo-lattice-exchange-camel/tree/master</url>
+    </scm>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
 
         <version.camel>3.0.0-M4</version.camel>
-        <version.vlingo>0.8.7</version.vlingo>
+        <version.vlingo>0.9.0-RC1</version.vlingo>
         <version.junit>5.5.1</version.junit>
-        <version.testcontainers>1.12.0</version.testcontainers>
+        <version.testcontainers>1.12.2</version.testcontainers>
         <version.lombok>1.18.8</version.lombok>
     </properties>
 
     <dependencies>
-        <!--    LOMBOK    -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${version.lombok}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!--    CAMEL    -->
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -81,21 +99,75 @@
         </dependency>
 
         <!--    CAMEL MODULES FOR TEST PURPOUSES    -->
-        <dependency> <!-- See com.github.kmruiz.lattice.camel.integration.ActiveMQIntegrationTest -->
+        <dependency> <!-- See io.vlingo.lattice.exchange.camel.integration.ActiveMQIntegrationTest -->
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-activemq</artifactId>
             <version>${version.camel}</version>
+            <scope>test</scope>
         </dependency>
-        <dependency> <!-- See com.github.kmruiz.lattice.camel.integration.RabbitMQIntegrationTest -->
+        <dependency> <!-- See io.vlingo.lattice.exchange.camel.integration.RabbitMQIntegrationTest -->
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-rabbitmq</artifactId>
             <version>${version.camel}</version>
+            <scope>test</scope>
         </dependency>
-        <dependency> <!-- See com.github.kmruiz.lattice.camel.integration.SQSIntegrationTest -->
+        <dependency> <!-- See io.vlingo.lattice.exchange.camel.integration.SQSIntegrationTest -->
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-aws-sqs</artifactId>
             <version>${version.camel}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.21.0</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <propertyName>firefox</propertyName>
+                    </systemPropertyVariables>
+                    <argLine>-Xmx1024m</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-vlingo-vlingo-platform-java</id>
+            <name>vlingo-vlingo-platform-java</name>
+            <url>https://api.bintray.com/maven/vlingo/vlingo-platform-java/vlingo-lattice-exchange-camel/;publish=1</url>
+        </repository>
+    </distributionManagement>
+
 </project>

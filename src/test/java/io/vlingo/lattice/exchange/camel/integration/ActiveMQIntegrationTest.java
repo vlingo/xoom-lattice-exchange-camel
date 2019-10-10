@@ -1,6 +1,6 @@
-package com.github.kmruiz.lattice.camel.integration;
+package io.vlingo.lattice.exchange.camel.integration;
 
-import com.github.kmruiz.lattice.camel.CamelTestWithDockerIntegration;
+import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
 import org.testcontainers.containers.GenericContainer;
 
 import java.util.UUID;

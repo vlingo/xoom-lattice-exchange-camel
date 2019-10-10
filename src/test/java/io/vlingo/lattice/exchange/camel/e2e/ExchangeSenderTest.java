@@ -1,7 +1,7 @@
-package com.github.kmruiz.lattice.camel.e2e;
+package io.vlingo.lattice.exchange.camel.e2e;
 
-import com.github.kmruiz.lattice.camel.CamelTest;
-import com.github.kmruiz.lattice.camel.sender.ExchangeSenders;
+import io.vlingo.lattice.exchange.camel.CamelTest;
+import io.vlingo.lattice.exchange.camel.sender.ExchangeSenders;
 import io.vlingo.lattice.exchange.ExchangeSender;
 import org.junit.jupiter.api.Test;
 

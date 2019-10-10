@@ -1,4 +1,4 @@
-package com.github.kmruiz.lattice.camel.sender;
+package io.vlingo.lattice.exchange.camel.sender;
 
 import org.apache.camel.CamelContext;
 
