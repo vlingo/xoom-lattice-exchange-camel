@@ -5,6 +5,8 @@
         </encoder>
     </appender>
     <logger name="com.github.dockerjava" level="INFO"/>
+    <logger name="org.apache.camel.component" level="ERROR"/>
+    <logger name="org.apache.camel.impl.DefaultCamelContext" level="ERROR"/>
     <logger name="org.apache.camel" level="INFO"/>
     <logger name="io.vlingo" level="DEBUG"/>
     
