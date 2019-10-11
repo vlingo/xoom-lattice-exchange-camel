@@ -11,23 +11,17 @@ import com.amazonaws.ClientConfiguration;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 
 import java.util.UUID;
 
 public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStackContainer> {
     private static final String QUEUE_NAME = UUID.randomUUID().toString();
-    private static final Logger LOGGER = LoggerFactory.getLogger(SQSIntegrationTest.class);
 
     @Override
     protected LocalStackContainer testContainer() {
         return new LocalStackContainer()
-                .withServices(LocalStackContainer.Service.SQS)
-                .withLogConsumer(outputFrame -> {
-                    LOGGER.debug(outputFrame.getUtf8String());
-                });
+                .withServices(LocalStackContainer.Service.SQS);
     }
 
     @Override
@@ -36,7 +30,7 @@ public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStac
                 .standard()
                 .withCredentials(localStack.getDefaultCredentialsProvider())
                 .withEndpointConfiguration(localStack.getEndpointConfiguration(LocalStackContainer.Service.SQS))
-                .withClientConfiguration(new ClientConfiguration().withMaxErrorRetry(5))
+                .withClientConfiguration(new ClientConfiguration().withMaxErrorRetry(20))
                 .build();
 
         camelRegistry().bind("client", sqs);
