@@ -24,13 +24,14 @@ public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStac
     @Override
     protected LocalStackContainer testContainer() {
         return new LocalStackContainer()
-                .withServices(LocalStackContainer.Service.SQS);
+                .withServices(LocalStackContainer.Service.SQS)
+                .withLogConsumer(outputFrame -> {
+                    LOGGER.debug(outputFrame.getUtf8String());
+                });
     }
 
     @Override
     protected String exchangeUri(LocalStackContainer localStack) {
-        LOGGER.info("SQL container is {}", localStack.isRunning());
-        
         AmazonSQS sqs = AmazonSQSClientBuilder
                 .standard()
                 .withCredentials(localStack.getDefaultCredentialsProvider())
