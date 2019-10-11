@@ -7,6 +7,7 @@
 
 package io.vlingo.lattice.exchange.camel.integration;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
@@ -29,6 +30,7 @@ public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStac
                 .standard()
                 .withCredentials(localStack.getDefaultCredentialsProvider())
                 .withEndpointConfiguration(localStack.getEndpointConfiguration(LocalStackContainer.Service.SQS))
+                .withClientConfiguration(new ClientConfiguration().withMaxErrorRetry(20))
                 .build();
 
         camelRegistry().bind("client", sqs);

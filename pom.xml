@@ -38,7 +38,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
 
-        <version.camel>3.0.0-M4</version.camel>
+        <version.camel>3.0.0-RC2</version.camel>
         <version.vlingo>0.9.0-RC1</version.vlingo>
         <version.junit>5.5.1</version.junit>
         <version.testcontainers>1.12.2</version.testcontainers>
