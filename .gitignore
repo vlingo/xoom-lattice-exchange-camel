@@ -1,3 +1,20 @@
+# General
+bin/
+target/
+.classpath
+.project
+.settings
+.DS_Store
+*.log
+build/
+
+
+# Intellij
+.idea/
 /.idea
 /target
 *.iml
+*.iws
+*.ipr
+.gradle/
+out/
