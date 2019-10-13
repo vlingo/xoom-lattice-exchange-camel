@@ -7,33 +7,51 @@
 
 package io.vlingo.lattice.exchange.camel.e2e;
 
+import io.vlingo.lattice.exchange.Covey;
+import io.vlingo.lattice.exchange.Exchange;
+import io.vlingo.lattice.exchange.TextMessageAdapter;
 import io.vlingo.lattice.exchange.camel.CamelExchange;
 import io.vlingo.lattice.exchange.camel.CamelTest;
-import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
-import io.vlingo.lattice.exchange.Exchange;
+import io.vlingo.lattice.exchange.camel.CoveyFactory;
+import io.vlingo.lattice.exchange.camel.TextMessageReceiver;
+import org.apache.camel.CamelContext;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
+import java.util.Queue;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CamelExchangeTest extends CamelTest {
     private final String NAME = UUID.randomUUID().toString();
     private final String ENDPOINT = "seda:" + UUID.randomUUID().toString();
-    private final String CONTENT = UUID.randomUUID().toString();
 
     @Test
     void shouldBeAbleToConsumeAProducerMessageFromAExchange() throws Exception {
-        Exchange exchange = new CamelExchange<>(context(), NAME, String.class, ENDPOINT);
+        final CamelContext camelContext = context();
+        Exchange exchange = new CamelExchange(camelContext, NAME, ENDPOINT);
 
-        ExchangeChannel<String> channel = exchange.channel();
+        try {
+            final TextMessageReceiver messageReceiver = new TextMessageReceiver(2);
 
-        exchange.send(CONTENT);
+            final Covey<String, String, org.apache.camel.Exchange> covey = CoveyFactory.build(camelContext, ENDPOINT,
+                                                                           messageReceiver,
+                                                                           new TextMessageAdapter(camelContext),
+                                                                           String.class, String.class);
+            exchange.register(covey);
 
-        Optional<String> receivedBody = channel.receive(DEFAULT_TIMEOUT);
-        assertTrue(receivedBody.isPresent());
-        assertEquals(CONTENT, receivedBody.get());
+            final String msg1 = UUID.randomUUID().toString();
+            final String msg2 = UUID.randomUUID().toString();
+            exchange.send(msg1);
+            exchange.send(msg2);
+
+            final Queue<Object> results = messageReceiver.getResults();
+
+            Assert.assertEquals(2, results.size());
+            Assert.assertEquals(msg1, results.poll());
+            Assert.assertEquals(msg2, results.poll());
+
+        } finally {
+            exchange.close();
+        }
     }
 }
