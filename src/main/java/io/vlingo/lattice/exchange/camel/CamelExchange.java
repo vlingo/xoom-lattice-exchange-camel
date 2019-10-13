@@ -10,65 +10,53 @@ package io.vlingo.lattice.exchange.camel;
 import io.vlingo.lattice.exchange.Covey;
 import io.vlingo.lattice.exchange.Exchange;
 import io.vlingo.lattice.exchange.Forwarder;
-import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
-import io.vlingo.lattice.exchange.camel.channel.ExchangeChannels;
-import io.vlingo.lattice.exchange.camel.sender.CamelExchangeSender;
-import io.vlingo.lattice.exchange.camel.sender.ExchangeSenders;
+import io.vlingo.lattice.exchange.camel.consumer.CamelExchangeConsumer;
+import io.vlingo.lattice.exchange.camel.consumer.ExchangeConsumers;
 import org.apache.camel.CamelContext;
 
-public class CamelExchange<ExchangeType> implements Exchange {
-    private final CamelContext camelContext;
-    private final String name;
-    private final ExchangeChannel<ExchangeType> channel;
-    private final CamelExchangeSender<ExchangeType> sender;
+public class CamelExchange implements Exchange {
+  private final CamelContext camelContext;
+  private final String name;
+  private final CamelExchangeConsumer channel;
 
-    private final Forwarder forwarder;
+  private final Forwarder forwarder;
 
-    public CamelExchange(CamelContext camelContext, String name, Class<ExchangeType> exchangeType, String endpoint) throws Exception {
-        this.camelContext = camelContext;
-        this.name = name;
-        this.channel = ExchangeChannels.receivingFrom(endpoint, camelContext, exchangeType);
-        this.sender = ExchangeSenders.sendingTo(endpoint, camelContext);
-        this.forwarder = new Forwarder();
-    }
+  public CamelExchange(CamelContext camelContext, String name, String endpoint) throws Exception {
+    this.camelContext = camelContext;
+    this.name = name;
+    this.forwarder = new Forwarder();
+    this.channel = ExchangeConsumers.receivingFrom(endpoint, camelContext, this.forwarder::forwardToReceiver);
+  }
 
-    @Override
-    public void close() {
-        channel.close();
+  @Override
+  public void close() {
+    channel.close();
+    camelContext.stop();
+  }
 
-        try {
-            sender.close();
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
+  @Override
+  public <T> T channel() {
+    return (T) channel;
+  }
 
-        camelContext.stop();
-    }
+  @Override
+  public <T> T connection() {
+    return (T) camelContext;
+  }
 
-    @Override
-    public <T> T channel() {
-        return (T) channel;
-    }
+  @Override
+  public String name() {
+    return name;
+  }
 
-    @Override
-    public <T> T connection() {
-        return (T) camelContext;
-    }
+  @Override
+  public <L, E, EX> Exchange register(Covey<L, E, EX> covey) {
+    forwarder.register(covey);
+    return this;
+  }
 
-    @Override
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public <L, E, EX> Exchange register(Covey<L, E, EX> covey) {
-        // ? forwarder.register(covey);
-        return this;
-    }
-
-    @Override
-    public <L> void send(L l) {
-        sender.send((ExchangeType) l);
-        // ? forwarder.forwardToSender(l);
-    }
+  @Override
+  public <L> void send(L l) {
+    forwarder.forwardToSender(l);
+  }
 }

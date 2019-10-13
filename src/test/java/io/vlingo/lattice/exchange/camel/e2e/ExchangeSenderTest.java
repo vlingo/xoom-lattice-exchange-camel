@@ -10,6 +10,8 @@ package io.vlingo.lattice.exchange.camel.e2e;
 import io.vlingo.lattice.exchange.camel.CamelTest;
 import io.vlingo.lattice.exchange.camel.sender.ExchangeSenders;
 import io.vlingo.lattice.exchange.ExchangeSender;
+import org.apache.camel.Exchange;
+import org.apache.camel.builder.ExchangeBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -22,8 +24,8 @@ public class ExchangeSenderTest extends CamelTest {
 
     @Test
     void shouldSendAConsumableExchangeToTheSelectedEndpoint() throws Exception {
-        ExchangeSender<String> sender = ExchangeSenders.sendingTo(ENDPOINT, context());
-        sender.send(CONTENT);
+        ExchangeSender<Exchange> sender = ExchangeSenders.sendingTo(ENDPOINT, context());
+        sender.send(ExchangeBuilder.anExchange(context()).withBody(CONTENT).build());
 
         String receivedBody = consumer().receiveBody(ENDPOINT, DEFAULT_TIMEOUT).toString();
         assertEquals(CONTENT, receivedBody);

@@ -7,22 +7,21 @@
 
 package io.vlingo.lattice.exchange.camel;
 
+import io.vlingo.lattice.exchange.Covey;
 import io.vlingo.lattice.exchange.Exchange;
-import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
+import io.vlingo.lattice.exchange.TextMessageAdapter;
+import org.apache.camel.CamelContext;
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 
-import java.util.Optional;
+import java.util.Queue;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class CamelTestWithDockerIntegration<T extends GenericContainer> extends CamelTest {
     private T container;
-    private String content;
 
     protected abstract T testContainer();
     protected abstract String exchangeUri(T forContainer);
@@ -31,8 +30,6 @@ public abstract class CamelTestWithDockerIntegration<T extends GenericContainer>
     public void initializeContainer() {
         container = testContainer();
         container.start();
-
-        content = UUID.randomUUID().toString();
     }
 
     @AfterEach
@@ -43,14 +40,29 @@ public abstract class CamelTestWithDockerIntegration<T extends GenericContainer>
     @Test
     public void shouldConsumeAndReadTheSameMessageFromTheSameExchange() throws Exception {
         String exchangeUri = exchangeUri(container);
-        Exchange exchange = new CamelExchange<>(context(), exchangeUri, String.class, exchangeUri);
+        final CamelContext camelContext = context();
+        Exchange exchange = new CamelExchange(context(), exchangeUri, exchangeUri);
 
-        ExchangeChannel<String> channel = exchange.channel();
+        try {
+            final TextMessageReceiver messageReceiver = new TextMessageReceiver(2);
 
-        exchange.send(content);
+            final Covey<String, String, org.apache.camel.Exchange> covey = CoveyFactory.build(camelContext, exchangeUri,
+                                                                                              messageReceiver,
+                                                                                              new TextMessageAdapter(camelContext),
+                                                                                              String.class, String.class);
+            exchange.register(covey);
 
-        Optional<String> receivedBody = channel.receive(DEFAULT_TIMEOUT);
-        assertTrue(receivedBody.isPresent());
-        assertEquals(content, receivedBody.get());
+            final String msg1 = UUID.randomUUID().toString();
+            final String msg2 = UUID.randomUUID().toString();
+            exchange.send(msg1);
+            exchange.send(msg2);
+
+            final Queue<Object> results = messageReceiver.getResults();
+            Assert.assertEquals(2, results.size());
+            Assert.assertEquals(msg1, results.poll());
+            Assert.assertEquals(msg2, results.poll());
+        } finally {
+            exchange.close();
+        }
     }
 }

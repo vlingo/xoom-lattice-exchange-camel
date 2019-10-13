@@ -8,32 +8,43 @@
 package io.vlingo.lattice.exchange.camel.e2e;
 
 import io.vlingo.lattice.exchange.camel.CamelTest;
-import io.vlingo.lattice.exchange.camel.channel.ExchangeChannel;
-import io.vlingo.lattice.exchange.camel.channel.ExchangeChannels;
+import io.vlingo.lattice.exchange.camel.consumer.ExchangeConsumers;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ExchangeChannelTest extends CamelTest {
-    private final String ENDPOINT = "seda:" + UUID.randomUUID().toString();
+  private final String ENDPOINT = "seda:" + UUID.randomUUID()
+                                                .toString();
 
-    @Test
-    void shouldConsumeAMessageThatIsWaitingInTheChannel() {
-        ExchangeChannel<String> channel = ExchangeChannels.receivingFrom(ENDPOINT, context(), String.class);
-        String[] messages = producedMessagesAre(UUID.randomUUID().toString());
+  @Test
+  void shouldConsumeAMessageThatIsWaitingInTheChannel() throws Exception {
+    CountDownLatch countDownLatch = new CountDownLatch(1);
+    AtomicReference<String> receivedMessage = new AtomicReference<>();
 
-        Optional<String> receivedBody = channel.receive(DEFAULT_TIMEOUT);
-        assertTrue(receivedBody.isPresent());
-        assertEquals(messages[0], receivedBody.get());
-    }
+    ExchangeConsumers.receivingFrom(ENDPOINT, context(), exchange -> {
+      receivedMessage.set(exchange.getMessage().getBody(String.class));
+      countDownLatch.countDown();
+    });
 
-    private String[] producedMessagesAre(String... messages) {
-        Stream.of(messages).forEach(message -> producer().sendBody(ENDPOINT, message));
-        return messages;
-    }
+    String[] messages = producedMessagesAre(UUID.randomUUID().toString());
+
+    countDownLatch.await(1, TimeUnit.SECONDS);
+
+    assertNotNull(receivedMessage.get());
+    assertEquals(messages[0], receivedMessage.get());
+  }
+
+  private String[] producedMessagesAre(String... messages) {
+    Stream.of(messages)
+          .forEach(message -> producer().sendBody(ENDPOINT, message));
+    return messages;
+  }
 }
