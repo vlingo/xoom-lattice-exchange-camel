@@ -4,11 +4,12 @@
 // Mozilla Public License, v. 2.0. If a copy of the MPL
 // was not distributed with this file, You can obtain
 // one at https://mozilla.org/MPL/2.0/.
-package io.vlingo.lattice.exchange.camel;
+package io.vlingo.lattice.exchange.camel.adapter;
 
 import io.vlingo.lattice.exchange.ExchangeAdapter;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.camel.builder.ExchangeBuilder;
 
 /**
@@ -18,17 +19,32 @@ import org.apache.camel.builder.ExchangeBuilder;
  * @param <L> the local object type
  * @param <E> the external object type
  */
-public abstract class CamelExchangeAdapter<L, E> implements ExchangeAdapter<L, E, Exchange> {
+public abstract class AbstractCamelExchangeAdapter<L, E> implements ExchangeAdapter<L, E, Exchange> {
+  private static final String MESSAGE_TYPE_HEADER = "VlingoExchangeMessageType";
   private final CamelContext camelContext;
+  private final Class<L> localMessageClass;
 
-  public CamelExchangeAdapter(final CamelContext camelContext) {this.camelContext = camelContext;}
+  public AbstractCamelExchangeAdapter(final CamelContext camelContext, final Class<L> localMessageClass) {
+    this.camelContext = camelContext;
+    this.localMessageClass = localMessageClass;
+  }
+
+  protected CamelContext camelContext() {
+    return camelContext;
+  }
+
+  protected Class<L> localMessageClass() {
+    return localMessageClass;
+  }
 
   /**
    * {@inheritDoc}
    */
   @Override
   public final Exchange toExchange(final L localMessage) {
-    return buildExchange(ExchangeBuilder.anExchange(camelContext), localMessage).build();
+    return buildExchange(ExchangeBuilder.anExchange(camelContext), localMessage)
+            .withHeader(MESSAGE_TYPE_HEADER, localMessageClass.getSimpleName())
+            .build();
   }
 
   /**
@@ -36,7 +52,15 @@ public abstract class CamelExchangeAdapter<L, E> implements ExchangeAdapter<L, E
    */
   @Override
   public final boolean supports(final Object exchangeMessage) {
-    return exchangeMessage instanceof Exchange;
+    if (exchangeMessage instanceof Exchange) {
+      final Message message = ((Exchange) exchangeMessage).getMessage();
+      final String type = message.getHeader(MESSAGE_TYPE_HEADER, String.class);
+      if (type != null) {
+        return localMessageClass.getSimpleName().equalsIgnoreCase(type);
+      }
+    }
+
+    return false;
   }
 
   /**
