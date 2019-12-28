@@ -7,15 +7,18 @@
 
 package io.vlingo.lattice.exchange.camel.integration;
 
-import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
-import org.testcontainers.containers.GenericContainer;
-
 import java.util.UUID;
 
+import org.testcontainers.containers.GenericContainer;
+
+import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
+
+@SuppressWarnings("rawtypes")
 public class ActiveMQIntegrationTest extends CamelTestWithDockerIntegration {
     private static final String QUEUE_NAME = UUID.randomUUID().toString();
 
     @Override
+    @SuppressWarnings("resource")
     protected GenericContainer testContainer() {
         return new GenericContainer("rmohr/activemq:5.15.9-alpine")
                 .withExposedPorts(61616);

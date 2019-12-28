@@ -7,12 +7,13 @@
 
 package io.vlingo.lattice.exchange.camel;
 
+import org.apache.camel.CamelContext;
+
 import io.vlingo.lattice.exchange.Covey;
 import io.vlingo.lattice.exchange.Exchange;
 import io.vlingo.lattice.exchange.Forwarder;
 import io.vlingo.lattice.exchange.camel.consumer.CamelExchangeConsumer;
 import io.vlingo.lattice.exchange.camel.consumer.ExchangeConsumers;
-import org.apache.camel.CamelContext;
 
 public class CamelExchange implements Exchange {
   private final CamelContext camelContext;
@@ -35,11 +36,13 @@ public class CamelExchange implements Exchange {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public <T> T channel() {
     return (T) channel;
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public <T> T connection() {
     return (T) camelContext;
   }

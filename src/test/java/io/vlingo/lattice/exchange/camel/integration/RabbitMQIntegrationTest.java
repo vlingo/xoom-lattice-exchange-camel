@@ -7,16 +7,19 @@
 
 package io.vlingo.lattice.exchange.camel.integration;
 
-import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
-import org.testcontainers.containers.GenericContainer;
-
 import java.util.UUID;
 
+import org.testcontainers.containers.GenericContainer;
+
+import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
+
 // This is a *really* slow test because RabbitMQ takes it's time to bootstrap (around 40s in my machine)
+@SuppressWarnings("rawtypes")
 public class RabbitMQIntegrationTest extends CamelTestWithDockerIntegration {
     private static final String QUEUE_NAME = UUID.randomUUID().toString();
 
     @Override
+    @SuppressWarnings("resource")
     protected GenericContainer testContainer() {
         return new GenericContainer("rabbitmq:latest")
                 .withExposedPorts(5672);

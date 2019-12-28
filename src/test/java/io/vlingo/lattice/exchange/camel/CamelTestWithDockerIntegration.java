@@ -7,12 +7,9 @@
 
 package io.vlingo.lattice.exchange.camel;
 
-import io.vlingo.lattice.exchange.Covey;
-import io.vlingo.lattice.exchange.Exchange;
-import io.vlingo.lattice.exchange.ExchangeSender;
-import io.vlingo.lattice.exchange.TextMessageAdapter;
-import io.vlingo.lattice.exchange.camel.e2e.MockMessageReceiver;
-import io.vlingo.lattice.exchange.camel.sender.ExchangeSenders;
+import java.util.Queue;
+import java.util.UUID;
+
 import org.apache.camel.CamelContext;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
@@ -20,9 +17,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 
-import java.util.Queue;
-import java.util.UUID;
+import io.vlingo.lattice.exchange.Covey;
+import io.vlingo.lattice.exchange.Exchange;
+import io.vlingo.lattice.exchange.ExchangeSender;
+import io.vlingo.lattice.exchange.TextMessageAdapter;
+import io.vlingo.lattice.exchange.camel.e2e.MockMessageReceiver;
+import io.vlingo.lattice.exchange.camel.sender.ExchangeSenders;
 
+@SuppressWarnings("rawtypes")
 public abstract class CamelTestWithDockerIntegration<T extends GenericContainer> extends CamelTest {
   private T container;
 

@@ -7,18 +7,21 @@
 
 package io.vlingo.lattice.exchange.camel.integration;
 
+import java.util.UUID;
+
+import org.testcontainers.containers.localstack.LocalStackContainer;
+
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
-import org.testcontainers.containers.localstack.LocalStackContainer;
 
-import java.util.UUID;
+import io.vlingo.lattice.exchange.camel.CamelTestWithDockerIntegration;
 
 public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStackContainer> {
     private static final String QUEUE_NAME = UUID.randomUUID().toString();
 
     @Override
+    @SuppressWarnings("resource")
     protected LocalStackContainer testContainer() {
         return new LocalStackContainer()
                 .withServices(LocalStackContainer.Service.SQS);
