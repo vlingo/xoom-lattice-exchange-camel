@@ -17,7 +17,7 @@ The vlingo/PLATFORM implementation of vlingo/lattice Exchange for Apache Camel.
     <dependency>
       <groupId>io.vlingo</groupId>
       <artifactId>vlingo-lattice-exchange-camel</artifactId>
-      <version>0.9.3-RC4</version>
+      <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -25,7 +25,7 @@ The vlingo/PLATFORM implementation of vlingo/lattice Exchange for Apache Camel.
 
 ```gradle
 dependencies {
-    compile 'io.vlingo:vlingo-lattice-exchange-camel:0.9.3-RC4'
+    compile 'io.vlingo:vlingo-lattice-exchange-camel:1.0.0'
 }
 
 repositories {
