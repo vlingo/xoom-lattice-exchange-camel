@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.vlingo</groupId>
   <artifactId>vlingo-lattice-exchange-camel</artifactId>
-  <version>1.2.9</version>
+  <version>1.2.10-SNAPSHOT</version>
   <name>vlingo-lattice-exchange-camel</name>
   <description>The vlingo/lattice io.vlingo.lattice.exchange.Exchange extension for Apache Camel</description>
   <url>https://github.com/vlingo/vlingo-lattice-exchange-camel</url>
@@ -21,7 +21,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
     <version.camel>3.0.1</version.camel>
-    <version.vlingo>0.9.0-RC1</version.vlingo>
     <version.junit>5.5.1</version.junit>
     <version.testcontainers>1.12.2</version.testcontainers>
     <version.lombok>1.18.8</version.lombok>
@@ -40,12 +39,12 @@
     <dependency>
       <groupId>io.vlingo</groupId>
       <artifactId>vlingo-lattice</artifactId>
-      <version>1.2.9</version>
+      <version>1.2.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.vlingo</groupId>
       <artifactId>vlingo-telemetry</artifactId>
-      <version>1.2.9</version>
+      <version>1.2.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -139,14 +138,30 @@
     <repository>
       <id>jcenter</id>
       <url>https://jcenter.bintray.com/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>oss-jfrog-snapshot</id>
+      <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </repository>
   </repositories>
 
   <distributionManagement>
     <repository>
-      <id>bintray-vlingo-vlingo-platform-java</id>
+      <id>bintray-deploy</id>
       <name>vlingo-vlingo-platform-java</name>
       <url>https://api.bintray.com/maven/vlingo/vlingo-platform-java/vlingo-lattice-exchange-camel/;publish=1</url>
     </repository>
+
+    <snapshotRepository>
+      <id>oss-jfrog-snapshot-deploy</id>
+      <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
+    </snapshotRepository>
   </distributionManagement>
 </project>
