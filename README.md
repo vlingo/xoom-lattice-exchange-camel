@@ -2,7 +2,9 @@
 
 [![Javadocs](http://javadoc.io/badge/io.vlingo/vlingo-lattice-exchange-camel.svg?color=brightgreen)](http://javadoc.io/doc/io.vlingo/vlingo-lattice-exchange-camel) [![Build Status](https://travis-ci.org/vlingo/vlingo-lattice-exchange-camel.svg?branch=master)](https://travis-ci.org/vlingo/vlingo-lattice-exchange-camel) [ ![Download](https://api.bintray.com/packages/vlingo/vlingo-platform-java/vlingo-lattice-exchange-camel/images/download.svg) ](https://bintray.com/vlingo/vlingo-platform-java/vlingo-lattice-exchange-camel/_latestVersion) [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/vlingo-platform-java/lattice)
 
-The vlingo/PLATFORM implementation of vlingo/lattice Exchange for Apache Camel.
+Docs: https://docs.vlingo.io/vlingo-lattice/exchange
+
+The VLINGO/PLATFORM implementation of VLINGO/LATTICE Exchange for Apache Camel.
 
 ### Bintray
 
@@ -17,7 +19,7 @@ The vlingo/PLATFORM implementation of vlingo/lattice Exchange for Apache Camel.
     <dependency>
       <groupId>io.vlingo</groupId>
       <artifactId>vlingo-lattice-exchange-camel</artifactId>
-      <version>1.2.9</version>
+      <version>1.3.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -25,7 +27,7 @@ The vlingo/PLATFORM implementation of vlingo/lattice Exchange for Apache Camel.
 
 ```gradle
 dependencies {
-    compile 'io.vlingo:vlingo-lattice-exchange-camel:1.2.9'
+    compile 'io.vlingo:vlingo-lattice-exchange-camel:1.3.0'
 }
 
 repositories {
