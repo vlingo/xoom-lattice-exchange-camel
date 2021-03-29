@@ -13,7 +13,7 @@ Docs: https://docs.vlingo.io/vlingo-lattice/exchange
     <dependency>
       <groupId>io.vlingo</groupId>
       <artifactId>vlingo-lattice-exchange-camel</artifactId>
-      <version>1.5.2</version>
+      <version>1.6.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -21,7 +21,7 @@ Docs: https://docs.vlingo.io/vlingo-lattice/exchange
 
 ```gradle
 dependencies {
-    compile 'io.vlingo:vlingo-lattice-exchange-camel:1.5.2'
+    compile 'io.vlingo:vlingo-lattice-exchange-camel:1.6.0'
 }
 ```
 
