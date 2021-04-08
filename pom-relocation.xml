@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.vlingo.xoom</groupId>
-  <artifactId>xoom-lattice-exchange-camel</artifactId>
+  <groupId>io.vlingo</groupId>
+  <artifactId>vlingo-lattice-exchange-camel</artifactId>
   <version>1.6.1-SNAPSHOT</version>
-  <name>xoom-lattice-exchange-camel</name>
+  <name>vlingo-lattice-exchange-camel</name>
   <description>The vlingo/lattice io.vlingo.xoom.lattice.exchange.Exchange extension for Apache Camel</description>
   <url>https://github.com/vlingo/xoom-lattice-exchange-camel</url>
   <licenses>
@@ -34,6 +34,12 @@
     <version.testcontainers>1.15.1</version.testcontainers>
     <version.lombok>1.18.8</version.lombok>
   </properties>
+  <distributionManagement>
+    <relocation>
+      <groupId>io.vlingo.xoom</groupId>
+      <artifactId>xoom-lattice-exchange-camel</artifactId>
+    </relocation>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -195,6 +201,10 @@
         </property>
       </activation>
       <distributionManagement>
+        <relocation>
+          <groupId>io.vlingo.xoom</groupId>
+          <artifactId>xoom-lattice-exchange-camel</artifactId>
+        </relocation>
         <snapshotRepository>
           <id>central-repository-ossrh</id>
           <name>Snapshots Repository OSSRH</name>
@@ -226,6 +236,10 @@
         </property>
       </activation>
       <distributionManagement>
+        <relocation>
+          <groupId>io.vlingo.xoom</groupId>
+          <artifactId>xoom-lattice-exchange-camel</artifactId>
+        </relocation>
         <repository>
           <id>github</id>
           <name>GitHub Packages</name>
