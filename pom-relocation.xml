@@ -4,7 +4,7 @@
   <artifactId>vlingo-lattice-exchange-camel</artifactId>
   <version>1.6.1-SNAPSHOT</version>
   <name>vlingo-lattice-exchange-camel</name>
-  <description>The vlingo/lattice io.vlingo.xoom.lattice.exchange.Exchange extension for Apache Camel</description>
+  <description>The VLINGO XOOM Lattice io.vlingo.xoom.lattice.exchange.Exchange extension for Apache Camel</description>
   <url>https://github.com/vlingo/xoom-lattice-exchange-camel</url>
   <licenses>
     <license>
@@ -15,7 +15,7 @@
   <developers>
     <developer>
       <id>vlingo</id>
-      <name>vlingo/PLATFORM Team</name>
+      <name>VLINGO XOOM Team</name>
       <email>info@vlingo.io</email>
       <organization>vlingo</organization>
       <organizationUrl>https://vlingo.io/contributors/</organizationUrl>
