@@ -1,4 +1,4 @@
-package io.vlingo.xoom.lattice.exchange.camel.implnative;
+package io.vlingo.xoom.lattice.exchange.camel.nativebuild;
 
 import io.vlingo.xoom.actors.Configuration;
 import io.vlingo.xoom.actors.World;
