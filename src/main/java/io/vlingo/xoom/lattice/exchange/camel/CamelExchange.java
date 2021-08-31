@@ -7,13 +7,12 @@
 
 package io.vlingo.xoom.lattice.exchange.camel;
 
-import org.apache.camel.CamelContext;
-
 import io.vlingo.xoom.lattice.exchange.Covey;
 import io.vlingo.xoom.lattice.exchange.Exchange;
 import io.vlingo.xoom.lattice.exchange.Forwarder;
 import io.vlingo.xoom.lattice.exchange.camel.consumer.CamelExchangeConsumer;
 import io.vlingo.xoom.lattice.exchange.camel.consumer.ExchangeConsumers;
+import org.apache.camel.CamelContext;
 
 public class CamelExchange implements Exchange {
   private final CamelContext camelContext;
@@ -61,5 +60,10 @@ public class CamelExchange implements Exchange {
   @Override
   public <L> void send(L l) {
     forwarder.forwardToSender(l);
+  }
+
+  @Override
+  public boolean shouldHandle(final Object exchangeMessage) {
+    return forwarder.supportExchangeMessage(exchangeMessage);
   }
 }

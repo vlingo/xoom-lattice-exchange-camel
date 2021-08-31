@@ -19,6 +19,7 @@ import io.vlingo.xoom.lattice.exchange.camel.e2e.model.MessageTypeB;
 import io.vlingo.xoom.lattice.exchange.camel.e2e.model.MessageTypeC;
 import io.vlingo.xoom.lattice.exchange.camel.sender.ExchangeSenders;
 import org.apache.camel.CamelContext;
+import org.apache.camel.builder.ExchangeBuilder;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +57,41 @@ public class CamelExchangeTest extends CamelTest {
       Assert.assertEquals(2, results.size());
       Assert.assertEquals(msg1, results.poll());
       Assert.assertEquals(msg2, results.poll());
+
+    } finally {
+      exchange.close();
+    }
+  }
+
+  @Test
+  void shouldHandleMessage() throws Exception {
+    final CamelContext camelContext = context();
+    final String endpoint = "seda:" + getRandomString();
+    Exchange exchange = new CamelExchange(camelContext, getRandomString(), endpoint);
+
+    try {
+      final ExchangeSender<org.apache.camel.Exchange> sender = ExchangeSenders.sendingTo(endpoint, camelContext);
+
+      final Covey<String, String, org.apache.camel.Exchange> covey = CoveyFactory.build(sender,
+              received -> {},
+              new TextMessageAdapter(camelContext),
+              String.class,
+              String.class);
+
+      exchange.register(covey);
+
+      final Object compatibleMessage = ExchangeBuilder.anExchange(camelContext).withBody("content")
+              .withHeader("VlingoExchangeMessageType", "String")
+              .build();
+
+      Assert.assertEquals(true, exchange.shouldHandle(compatibleMessage));
+
+      final Object incompatibleMessage = ExchangeBuilder.anExchange(camelContext).withBody("content")
+              .withHeader("VlingoExchangeMessageType", "Integer")
+              .build();
+
+      Assert.assertEquals(false, exchange.shouldHandle(incompatibleMessage));
+      Assert.assertEquals(false, exchange.shouldHandle(Integer.valueOf(1)));
 
     } finally {
       exchange.close();
