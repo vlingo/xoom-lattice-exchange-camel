@@ -24,7 +24,7 @@ public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStac
     @Override
     @SuppressWarnings("resource")
     protected LocalStackContainer testContainer() {
-        return new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.11.2"))
+        return new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.13.2"))
                 .withServices(LocalStackContainer.Service.SQS);
     }
 
