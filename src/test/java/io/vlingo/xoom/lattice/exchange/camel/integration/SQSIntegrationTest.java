@@ -16,6 +16,7 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 
 import io.vlingo.xoom.lattice.exchange.camel.CamelTestWithDockerIntegration;
+import org.testcontainers.utility.DockerImageName;
 
 public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStackContainer> {
     private static final String QUEUE_NAME = UUID.randomUUID().toString();
@@ -23,7 +24,7 @@ public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStac
     @Override
     @SuppressWarnings("resource")
     protected LocalStackContainer testContainer() {
-        return new LocalStackContainer()
+        return new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.11.2"))
                 .withServices(LocalStackContainer.Service.SQS);
     }
 
