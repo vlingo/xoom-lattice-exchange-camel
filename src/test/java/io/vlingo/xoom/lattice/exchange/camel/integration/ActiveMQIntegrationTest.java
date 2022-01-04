@@ -9,9 +9,12 @@ package io.vlingo.xoom.lattice.exchange.camel.integration;
 
 import java.util.UUID;
 
+import org.apache.camel.CamelContext;
 import org.testcontainers.containers.GenericContainer;
 
 import io.vlingo.xoom.lattice.exchange.camel.CamelTestWithDockerIntegration;
+
+import static org.apache.camel.component.activemq.ActiveMQComponent.activeMQComponent;
 
 @SuppressWarnings("rawtypes")
 public class ActiveMQIntegrationTest extends CamelTestWithDockerIntegration {
@@ -26,6 +29,11 @@ public class ActiveMQIntegrationTest extends CamelTestWithDockerIntegration {
 
     @Override
     protected String exchangeUri(GenericContainer activeMQ) {
-        return String.format("activemq:queue:%s?brokerURL=auto://%s:%d", QUEUE_NAME, activeMQ.getContainerIpAddress(), activeMQ.getMappedPort(61616));
+        return String.format("activemq:queue:%s", QUEUE_NAME);
+    }
+
+    @Override
+    protected void configureCamelContext(final CamelContext context, final GenericContainer activeMQ) {
+        context.addComponent("activemq", activeMQComponent(String.format("auto://%s:%d", activeMQ.getContainerIpAddress(), activeMQ.getMappedPort(61616))));
     }
 }

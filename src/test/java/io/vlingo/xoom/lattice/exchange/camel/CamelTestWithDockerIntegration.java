@@ -47,6 +47,7 @@ public abstract class CamelTestWithDockerIntegration<T extends GenericContainer>
   public void shouldConsumeAndReadTheSameMessageFromTheSameExchange() throws Exception {
     String exchangeUri = exchangeUri(container);
     final CamelContext camelContext = context();
+    configureCamelContext(camelContext, container);
     Exchange exchange = new CamelExchange(context(), exchangeUri, exchangeUri);
 
     try {
@@ -73,5 +74,8 @@ public abstract class CamelTestWithDockerIntegration<T extends GenericContainer>
     } finally {
       exchange.close();
     }
+  }
+
+  protected void configureCamelContext(final CamelContext context, final T container) {
   }
 }
