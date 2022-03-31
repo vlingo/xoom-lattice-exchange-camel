@@ -15,6 +15,7 @@ import org.graalvm.nativeimage.c.type.CCharPointer;
 import org.graalvm.nativeimage.c.type.CTypeConversion;
 
 public final class NativeBuildEntryPoint {
+  @SuppressWarnings("resource")
   @CEntryPoint(name = "Java_io_vlingo_xoom_lattice_exchange_camelnative_Native_start")
   public static int start(@CEntryPoint.IsolateThreadContext long isolateId, CCharPointer name) {
     final String nameString = CTypeConversion.toJavaString(name);
