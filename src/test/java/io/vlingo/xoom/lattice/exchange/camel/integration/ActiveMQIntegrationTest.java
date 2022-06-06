@@ -34,6 +34,6 @@ public class ActiveMQIntegrationTest extends CamelTestWithDockerIntegration {
 
     @Override
     protected void configureCamelContext(final CamelContext context, final GenericContainer activeMQ) {
-        context.addComponent("activemq", activeMQComponent(String.format("auto://%s:%d", activeMQ.getContainerIpAddress(), activeMQ.getMappedPort(61616))));
+        context.addComponent("activemq", activeMQComponent(String.format("auto://%s:%d", activeMQ.getHost(), activeMQ.getMappedPort(61616))));
     }
 }

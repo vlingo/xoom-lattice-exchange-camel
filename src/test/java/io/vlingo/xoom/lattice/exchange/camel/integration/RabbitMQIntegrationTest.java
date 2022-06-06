@@ -27,6 +27,6 @@ public class RabbitMQIntegrationTest extends CamelTestWithDockerIntegration {
 
     @Override
     protected String exchangeUri(GenericContainer rabbitMQ) {
-        return String.format("rabbitmq:%s?addresses=%s:%s,", QUEUE_NAME, rabbitMQ.getContainerIpAddress(), rabbitMQ.getMappedPort(5672));
+        return String.format("rabbitmq:%s?addresses=%s:%s,", QUEUE_NAME, rabbitMQ.getHost(), rabbitMQ.getMappedPort(5672));
     }
 }
