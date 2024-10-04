@@ -11,12 +11,15 @@ import java.util.UUID;
 
 import org.testcontainers.containers.localstack.LocalStackContainer;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.client.config.ClientOverrideConfiguration;
+import software.amazon.awssdk.core.retry.RetryPolicy;
 
 import io.vlingo.xoom.lattice.exchange.camel.CamelTestWithDockerIntegration;
 import org.testcontainers.utility.DockerImageName;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.sqs.SqsClient;
 
 public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStackContainer> {
     private static final String QUEUE_NAME = UUID.randomUUID().toString();
@@ -24,20 +27,29 @@ public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStac
     @Override
     @SuppressWarnings("resource")
     protected LocalStackContainer testContainer() {
-        return new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.13.2"))
+        return new LocalStackContainer(DockerImageName.parse("localstack/localstack:3.7.2"))
                 .withServices(LocalStackContainer.Service.SQS);
     }
 
     @Override
     protected String exchangeUri(LocalStackContainer localStack) {
-        AmazonSQS sqs = AmazonSQSClientBuilder
-                .standard()
-                .withCredentials(localStack.getDefaultCredentialsProvider())
-                .withEndpointConfiguration(localStack.getEndpointConfiguration(LocalStackContainer.Service.SQS))
-                .withClientConfiguration(new ClientConfiguration().withMaxErrorRetry(20))
+        SqsClient sqs = SqsClient.builder()
+                .credentialsProvider(
+                        StaticCredentialsProvider.create(
+                                AwsBasicCredentials.create(localStack.getAccessKey(), localStack.getSecretKey())
+                        )
+                )
+                .endpointOverride(localStack.getEndpointOverride(LocalStackContainer.Service.S3))
+                .overrideConfiguration(
+                        ClientOverrideConfiguration
+                                .builder()
+                                .retryPolicy(RetryPolicy.builder().numRetries(20).build())
+                                .build()
+                )
+                .region(Region.US_WEST_1)
                 .build();
 
         camelRegistry().bind("client", sqs);
-        return String.format("aws-sqs://%s?amazonSQSClient=#client&delay=5000&maxMessagesPerPoll=5&attributeNames=VlingoExchangeMessageType&messageAttributeNames=VlingoExchangeMessageType", QUEUE_NAME);
+        return String.format("aws2-sqs://%s?amazonSQSClient=#client&delay=5000&maxMessagesPerPoll=5&attributeNames=VlingoExchangeMessageType&messageAttributeNames=VlingoExchangeMessageType", QUEUE_NAME);
     }
 }
