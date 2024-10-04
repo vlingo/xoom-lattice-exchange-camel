@@ -9,6 +9,7 @@ package io.vlingo.xoom.lattice.exchange.camel.integration;
 
 import java.util.UUID;
 
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.testcontainers.containers.GenericContainer;
 
 import io.vlingo.xoom.lattice.exchange.camel.CamelTestWithDockerIntegration;
@@ -27,6 +28,8 @@ public class RabbitMQIntegrationTest extends CamelTestWithDockerIntegration {
 
     @Override
     protected String exchangeUri(GenericContainer rabbitMQ) {
-        return String.format("rabbitmq:%s?addresses=%s:%s,", QUEUE_NAME, rabbitMQ.getHost(), rabbitMQ.getMappedPort(5672));
+        camelRegistry().bind("rabbitConnectionFactory",
+                new CachingConnectionFactory(rabbitMQ.getHost(), rabbitMQ.getMappedPort(5672)));
+        return String.format("spring-rabbitmq:%s?connectionFactory=#rabbitConnectionFactory&autoDeclare=true", QUEUE_NAME);
     }
 }
