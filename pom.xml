@@ -94,7 +94,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-rabbitmq</artifactId>
+      <artifactId>camel-spring-rabbitmq</artifactId>
       <version>${version.camel}</version>
       <scope>test</scope>
     </dependency>
