@@ -29,7 +29,7 @@
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <version.camel>3.8.0</version.camel>
+    <version.camel>3.14.10</version.camel>
     <version.junit>5.5.1</version.junit>
     <version.testcontainers>1.20.2</version.testcontainers>
     <version.lombok>1.18.8</version.lombok>

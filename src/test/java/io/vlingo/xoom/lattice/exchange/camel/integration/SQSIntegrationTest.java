@@ -50,6 +50,6 @@ public class SQSIntegrationTest extends CamelTestWithDockerIntegration<LocalStac
                 .build();
 
         camelRegistry().bind("client", sqs);
-        return String.format("aws2-sqs://%s?amazonSQSClient=#client&delay=5000&maxMessagesPerPoll=5&attributeNames=VlingoExchangeMessageType&messageAttributeNames=VlingoExchangeMessageType", QUEUE_NAME);
+        return String.format("aws2-sqs://%s?amazonSQSClient=#client&delay=5000&autoCreateQueue=true&maxMessagesPerPoll=5&attributeNames=VlingoExchangeMessageType&messageAttributeNames=VlingoExchangeMessageType", QUEUE_NAME);
     }
 }
